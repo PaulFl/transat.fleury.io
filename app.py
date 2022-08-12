@@ -25,7 +25,37 @@ app.layout = html.Div([
         ]),
         dcc.Tab(label='Geo map'),
         dcc.Tab(label='Sat map'),
-        dcc.Tab(label='Stats')
+        dcc.Tab(label='Stats', children=[
+            dcc.Markdown("""
+                - Path
+                    - Departure: Saint-Francois, Guadeloupe
+                    - Horta, Azores
+                    - Pornichet, France
+                - Length
+                    - Guadeloupe - Azores: 29 days
+                    - Azores - France: 17 days
+                    - Overall length: 46 days
+                - Distance
+                    - Straight line
+                        - Guadeloupe - Azores: 
+                        - Azores - France:
+                        - Overall: 
+                    - Total: 
+                        - Guadeloupe - Azores: 
+                        - Azores - France:
+                        - Overall: 
+                - Average speed:
+                    - Straight line
+                        - Guadeloupe - Azores: 
+                        - Azores - France:
+                        - Overall: 
+                    - Total: 
+                        - Guadeloupe - Azores: 
+                        - Azores - France:
+                        - Overall:
+                
+            """)
+        ])
     ]),
 ])
 
