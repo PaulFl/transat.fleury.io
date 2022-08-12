@@ -1,0 +1,7 @@
+version: '2.1'
+services:
+  transat_website:
+    build: .
+    container_name: transat_website
+    hostname: transat_website
+
