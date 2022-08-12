@@ -4,4 +4,6 @@ services:
     build: .
     container_name: transat_website
     hostname: transat_website
+    ports:
+      - 127.0.0.1:8050:8050
 
