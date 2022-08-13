@@ -7,14 +7,13 @@ app = Dash(__name__)
 
 server = app.server
 
-
 # Loading pickles
 # notebook.fleury.io create pickle from final dataframe
 df_transat = pickle.load(open('pickles/dataframe_transat.pickle', 'rb'))  # type: pd.DataFrame
 df_transat_1h = pickle.load(open('pickles/dataframe_transat_1h.pickle', 'rb'))  # type: pd.DataFrame
 
 globe_trace_plot = px.scatter_geo(
-    df_transat_1h,
+    df_transat,
     # title="Guadeloupe - France",
     # height=1000,
     lat='lat', lon='lon',
@@ -23,9 +22,7 @@ globe_trace_plot = px.scatter_geo(
     hover_data={'time': True, 'speed': ':.2f', 'lat': ':.2f', 'lon': ':.2f'},
     labels={'lat': 'Lat', 'lon': 'Lon', 'speed': 'Speed', 'time': 'Time'},
     projection="orthographic") \
-    .update_traces(
-    marker_size=3
-    ) \
+    .update_traces(marker_size=3) \
     .update_geos(
     # resolution=50,
     # fitbounds="locations",
@@ -38,10 +35,16 @@ globe_trace_plot = px.scatter_geo(
     showrivers=True, rivercolor="LightBlue",
     lataxis_showgrid=True, lonaxis_showgrid=True,
     lataxis_dtick=90, lonaxis_dtick=180
-    ) \
-    .update_layout(margin={"r": 0, "t": 50, "l": 0, "b": 10}) \
- \
-    # .write_html('trace.html')
+)
+
+mapbox_trace_plot = px.scatter_mapbox(df_transat, lat='lat', lon='lon', color='speed',
+                                      mapbox_style='open-street-map',
+                                      custom_data=['time'],
+                                      hover_data={'time': True, 'speed': ':.2f', 'lat': ':.2f', 'lon': ':.2f'},
+                                      labels={'lat': 'Lat', 'lon': 'Lon', 'speed': 'Speed', 'time': 'Time'},
+                                      zoom=2.5,
+                                      )\
+    .update_traces(marker_size=3.2)
 
 app.title = 'North Transatlantic 2022'
 
@@ -53,11 +56,16 @@ app.layout = html.Div([
             dcc.Graph(
                 id='transat_plot_globe',
                 figure=globe_trace_plot,
-                style={'width': '90vw', 'height': '80vh'}
+                style={'width': '90vw', 'height': '85vh'}
             )
         ]),
-        dcc.Tab(label='Geo map'),
-        dcc.Tab(label='Sat map'),
+        dcc.Tab(label='Geo map', children=[
+            dcc.Graph(
+                id='trasat_plot_mapbox',
+                figure=mapbox_trace_plot,
+                style={'width': '90vw', 'height': '85vh'}
+            )
+        ]),
         dcc.Tab(label='Stats', children=[
             dcc.Markdown("""
                 - Path
@@ -93,4 +101,4 @@ app.layout = html.Div([
 ])
 
 if __name__ == '__main__':
-    app.run_server(debug=True, host='0.0.0.0')
+    app.run_server(debug=True)
