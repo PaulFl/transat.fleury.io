@@ -5,6 +5,9 @@ import pickle
 
 app = Dash(__name__)
 
+server = app.server
+
+
 # Loading pickles
 # notebook.fleury.io create pickle from final dataframe
 df_transat = pickle.load(open('pickles/dataframe_transat.pickle', 'rb'))  # type: pd.DataFrame
