@@ -1,10 +1,15 @@
-version: '2.1'
+version: '2.4'
 services:
   transat_website:
     build: .
     container_name: transat_website
     hostname: transat_website
+    networks:
+      - proxy-network
     ports:
       - "127.0.0.1:8050:8050"
     restart: unless-stopped
 
+networks:
+  proxy-network:
+    external: true
