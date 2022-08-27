@@ -34,8 +34,11 @@ globe_trace_plot = px.scatter_geo(
     showlakes=True, lakecolor="LightBlue",
     showrivers=True, rivercolor="LightBlue",
     lataxis_showgrid=True, lonaxis_showgrid=True,
-    lataxis_dtick=90, lonaxis_dtick=180
-)
+    lataxis_dtick=90, lonaxis_dtick=180)\
+    .update_layout(
+    autosize=True,
+    margin=dict(t=5, b=5, l=0, r=0)
+    )
 
 mapbox_trace_plot = px.scatter_mapbox(df_transat, lat='lat', lon='lon', color='speed',
                                       mapbox_style='open-street-map',
@@ -44,7 +47,11 @@ mapbox_trace_plot = px.scatter_mapbox(df_transat, lat='lat', lon='lon', color='s
                                       labels={'lat': 'Lat', 'lon': 'Lon', 'speed': 'Speed', 'time': 'Time'},
                                       zoom=2.5,
                                       )\
-    .update_traces(marker_size=3.2)
+    .update_traces(marker_size=3.2)\
+    .update_layout(
+    autosize=True,
+    margin=dict(t=5, b=5, l=0, r=0)
+    )
 
 app.title = 'North Transatlantic 2022'
 
@@ -56,14 +63,14 @@ app.layout = html.Div([
             dcc.Graph(
                 id='transat_plot_globe',
                 figure=globe_trace_plot,
-                style={'width': '90vw', 'height': '85vh'}
+                style={'width': '100vw', 'height': '85vh'}
             )
         ]),
         dcc.Tab(label='Geo map', children=[
             dcc.Graph(
                 id='trasat_plot_mapbox',
                 figure=mapbox_trace_plot,
-                style={'width': '90vw', 'height': '85vh'}
+                style={'width': '100vw', 'height': '85vh'}
             )
         ]),
         dcc.Tab(label='Stats', children=[
